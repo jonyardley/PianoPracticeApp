@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		08A5891079278B0627EECC52 /* SharedTypes in Frameworks */ = {isa = PBXBuildFile; productRef = 32258924E0AD419BAA621949 /* SharedTypes */; };
-		0D4D3C5B2AA243A48B9CEE38 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A6C59672AA736317738B5C /* ContentView.swift */; };
 		4467D267096A960C23F9FF3B /* libshared_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA6A61FB6787C24656A044CC /* libshared_static.a */; };
 		4A7935DA2D4B24A0427339BC /* shared.udl in Sources */ = {isa = PBXBuildFile; fileRef = 1465E5EDE4F684AD5291C0A3 /* shared.udl */; };
+		4DACE5BF2A309E66000B2FEE /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DACE5BE2A309E66000B2FEE /* UserView.swift */; };
 		B80467C7DA8DB82760663B44 /* CounterAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D533D9BD281C15290E4016E5 /* CounterAppApp.swift */; };
 /* End PBXBuildFile section */
 
@@ -20,6 +20,8 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.udl";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			name = "Generate FFI";
 			outputFiles = (
@@ -66,12 +68,12 @@
 
 /* Begin PBXFileReference section */
 		1465E5EDE4F684AD5291C0A3 /* shared.udl */ = {isa = PBXFileReference; lastKnownFileType = text; path = shared.udl; sourceTree = "<group>"; };
+		4DACE5BE2A309E66000B2FEE /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		67D62EB120D164DFC93E7EC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6D984934DC207C1C28EDF6F1 /* SharedTypes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SharedTypes; path = ../shared_types/generated/swift/SharedTypes; sourceTree = SOURCE_ROOT; };
 		984E511AE1F9FB764F58CB7A /* Shared */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Shared; path = ../shared/shared.xcodeproj; sourceTree = "<group>"; };
 		9D06BFB95E0269CB9E1CD716 /* CounterApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CounterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D533D9BD281C15290E4016E5 /* CounterAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterAppApp.swift; sourceTree = "<group>"; };
-		D6A6C59672AA736317738B5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,9 +101,9 @@
 		20BEF56E8A58908817A7D5C2 /* CounterApp */ = {
 			isa = PBXGroup;
 			children = (
-				D6A6C59672AA736317738B5C /* ContentView.swift */,
 				D533D9BD281C15290E4016E5 /* CounterAppApp.swift */,
 				67D62EB120D164DFC93E7EC0 /* Info.plist */,
+				4DACE5BE2A309E66000B2FEE /* UserView.swift */,
 			);
 			path = CounterApp;
 			sourceTree = "<group>";
@@ -235,9 +237,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D4D3C5B2AA243A48B9CEE38 /* ContentView.swift in Sources */,
 				B80467C7DA8DB82760663B44 /* CounterAppApp.swift in Sources */,
 				4A7935DA2D4B24A0427339BC /* shared.udl in Sources */,
+				4DACE5BF2A309E66000B2FEE /* UserView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,4 @@
-pub mod counter;
-mod hello_world;
+pub mod app;
 
 use lazy_static::lazy_static;
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -8,14 +7,14 @@ pub use crux_core::bridge::Bridge;
 use crux_core::Core;
 pub use crux_core::Request;
 
-pub use counter::*;
+pub use app::*;
 
 // TODO hide this plumbing
 
 uniffi::include_scaffolding!("shared");
 
 lazy_static! {
-    static ref CORE: Bridge<Effect, Hello> = Bridge::new(Core::new::<Capabilities>());
+    static ref CORE: Bridge<Effect, App> = Bridge::new(Core::new::<Capabilities>());
 }
 
 #[wasm_bindgen]

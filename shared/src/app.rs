@@ -1,4 +1,4 @@
-use crux_core::{render::Render, App};
+use crux_core::render::Render;
 use crux_macros::Effect;
 use serde::{Deserialize, Serialize};
 
@@ -12,19 +12,21 @@ pub struct Model;
 
 #[derive(Serialize, Deserialize)]
 pub struct ViewModel {
-    data: String,
+    name: String,
+    email: String
 }
 
+#[cfg_attr(feature = "typegen", derive(crux_macros::Export))]
 #[derive(Effect)]
-#[effect(app = "Hello")]
+#[effect(app = "App")]
 pub struct Capabilities {
     render: Render<Event>,
 }
 
 #[derive(Default)]
-pub struct Hello;
+pub struct App;
 
-impl App for Hello {
+impl crux_core::App for App {
     type Event = Event;
     type Model = Model;
     type ViewModel = ViewModel;
@@ -36,7 +38,8 @@ impl App for Hello {
 
     fn view(&self, _model: &Self::Model) -> Self::ViewModel {
         ViewModel {
-            data: "Hello World".to_string(),
+            name: "Jon Yardley".to_string(),
+            email: "jonyardley@me.com".to_string()
         }
     }
 }
@@ -47,19 +50,16 @@ mod tests {
     use crux_core::{assert_effect, testing::AppTester};
 
     #[test]
-    fn hello_says_hello_world() {
-        let hello = AppTester::<Hello, _>::default();
+    fn user_prints_name_and_email() {
+        let app = AppTester::<App, _>::default();
         let mut model = Model::default();
 
-        // Call 'update' and request effects
-        let update = hello.update(Event::None, &mut model);
-
-        // Check update asked us to `Render`
+        let update = app.update(Event::None, &mut model);
         assert_effect!(update, Effect::Render(_));
 
-        // Make sure the view matches our expectations
-        let actual_view = &hello.view(&model).data;
-        let expected_view = "Hello World";
-        assert_eq!(actual_view, expected_view);
+        let name = &app.view(&model).name;
+        let email = &app.view(&model).email;
+        assert_eq!(name, "Jon Yardley");
+        assert_eq!(email, "jonyardley@me.com");
     }
 }
