@@ -4,16 +4,21 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 pub enum Event {
-    None,
+    SetName(String),
+    SetEmail(String),
+    Reset,
 }
 
 #[derive(Default)]
-pub struct Model;
+pub struct Model {
+    name: String,
+    email: String
+}
 
 #[derive(Serialize, Deserialize)]
 pub struct ViewModel {
-    name: String,
-    email: String
+    pub name: String,
+    pub email: String
 }
 
 #[cfg_attr(feature = "typegen", derive(crux_macros::Export))]
@@ -32,14 +37,22 @@ impl crux_core::App for App {
     type ViewModel = ViewModel;
     type Capabilities = Capabilities;
 
-    fn update(&self, _event: Self::Event, _model: &mut Self::Model, caps: &Self::Capabilities) {
+    fn update(&self, msg: Self::Event, model: &mut Self::Model, caps: &Self::Capabilities) {
+        match msg {
+            Event::SetName(name) => model.name = name,
+            Event::SetEmail(email) => model.email = email,
+            Event::Reset => {
+                model.email = "".to_string();
+                model.name = "".to_string();
+            }
+        }
         caps.render.render();
     }
 
-    fn view(&self, _model: &Self::Model) -> Self::ViewModel {
+    fn view(&self, model: &Self::Model) -> Self::ViewModel {
         ViewModel {
-            name: "Jon Yardley".to_string(),
-            email: "jonyardley@me.com".to_string()
+            name: model.name.to_string(),
+            email: model.email.to_string()
         }
     }
 }
@@ -50,16 +63,44 @@ mod tests {
     use crux_core::{assert_effect, testing::AppTester};
 
     #[test]
-    fn user_prints_name_and_email() {
+    fn reset_prints_default_model() {
         let app = AppTester::<App, _>::default();
         let mut model = Model::default();
 
-        let update = app.update(Event::None, &mut model);
+        let update = app.update(Event::Reset, &mut model);
         assert_effect!(update, Effect::Render(_));
 
         let name = &app.view(&model).name;
         let email = &app.view(&model).email;
-        assert_eq!(name, "Jon Yardley");
-        assert_eq!(email, "jonyardley@me.com");
+        assert_eq!(name, "");
+        assert_eq!(email, "");
+    }
+
+    #[test]
+    fn sets_name() {
+        let app = AppTester::<App, _>::default();
+        let mut model = Model::default();
+
+        let new_name = "New Name";
+
+        let update = app.update(Event::SetName(new_name.to_string()), &mut model);
+        assert_effect!(update, Effect::Render(_));
+
+        let name = &app.view(&model).name;
+        assert_eq!(name, new_name);
+    }
+
+    #[test]
+    fn sets_email() {
+        let app = AppTester::<App, _>::default();
+        let mut model = Model::default();
+
+        let new_email = "new@email.com";
+
+        let update = app.update(Event::SetEmail(new_email.to_string()), &mut model);
+        assert_effect!(update, Effect::Render(_));
+
+        let email = &app.view(&model).email;
+        assert_eq!(email, new_email);
     }
 }

@@ -10,7 +10,7 @@ class Model: ObservableObject {
     @Published var view = ViewModel(name: "", email: "")
 
     init() {
-        update(msg: .message(.none))
+        update(msg: .message(.reset))
     }
 
     func update(msg: Message) {
@@ -29,11 +29,29 @@ class Model: ObservableObject {
     }
 }
 
+struct InputView: View {
+    @ObservedObject var model: Model
+    @State private var name: String = ""
+    @State private var email: String = ""
+
+    var body: some View {
+        VStack() {
+            TextField("Enter your name", text: $name).padding(10)
+            TextField("What's your email", text: $email).padding(10)
+            Button("Update Details") {
+                model.update(msg: .message(.setName(name)))
+                model.update(msg: .message(.setEmail(email)))
+            }.padding(20)
+        }
+    }
+}
+
 struct UserView: View {
     @ObservedObject var model: Model
     
     var body: some View {
         VStack {
+            InputView(model: model)
             Text("Good Day,")
             Text("Name: " + model.view.name)
             Text("Email: " + model.view.email)
